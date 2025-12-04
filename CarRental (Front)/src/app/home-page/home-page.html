@@ -1,0 +1,156 @@
+<!-- Header with Navigation -->
+<header>
+  <nav [class.scrolled]="navScrolled" id="navbar">
+    <a [routerLink]="['/']" class="logo" style="text-decoration: none; color: inherit;">
+      Velocity<span>Rentals</span>
+    </a>    
+    <div class="nav-links">
+      <a [routerLink]="['/']">Home</a>
+      <a [routerLink]="['/cars']">Cars</a>
+      <a [routerLink]="['/service']">Services</a>
+      <a href="#about-section">About</a>
+      <a href="#contact-section">Contact</a>
+      <a *ngIf="!(authService.isLoggedIn$ | async)" [routerLink]="['/login']" class="cta-button">Log In</a>
+      <a *ngIf="authService.isLoggedIn$ | async" [routerLink]="['/profile']" class="cta-button">My Profile</a>
+    </div>
+  </nav>
+  
+  <div class="hero">
+    <h1>Find Your Perfect Ride</h1>
+    <p>Discover the best car rental deals from premium providers. Whether you need a luxury car for a special occasion or an economical vehicle for your daily commute, we've got you covered.</p>
+    
+    <form class="search-form" (ngSubmit)="onSearchSubmit()">
+      <div class="form-group">
+        <label for="pickup-location">Pickup Location</label>
+        <input type="text" id="pickup-location" placeholder="City, Airport, or Address">
+      </div>
+      <div class="form-group">
+        <label for="pickup-date">Pickup Date</label>
+        <input type="date" id="pickup-date">
+      </div>
+      <div class="form-group">
+        <label for="return-date">Return Date</label>
+        <input type="date" id="return-date">
+      </div>
+      <div class="form-group">
+        <label for="car-type">Car Type</label>
+        <select id="car-type">
+          <option value="">All Types</option>
+          <option value="economy">Economy</option>
+          <option value="compact">Compact</option>
+          <option value="midsize">Midsize</option>
+          <option value="suv">SUV</option>
+          <option value="luxury">Luxury</option>
+        </select>
+      </div>
+      <button type="submit" class="search-button">Search Cars</button>
+    </form>
+  </div>
+</header>
+
+<!-- Featured Cars Section -->
+<section class="featured">
+  <h2 class="section-title">Featured Vehicles</h2>
+  <p class="section-subtitle">Browse our most popular rental options</p>
+  
+  <div class="cars-grid">
+    <div class="car-card" *ngFor="let car of featuredCars">
+      <img [src]="resolveImage(car)" [alt]="car.make" class="car-image" />
+      <div class="car-info">
+        <h3 class="car-make">{{car.make}}</h3>
+        <div class="car-specs">
+          <span class="car-spec"><i class="fas fa-gas-pump"></i> {{car.fuel_type}}</span>
+          <span class="car-spec"><i class="fas fa-car"></i> {{car.type}}</span>
+          <span class="car-spec"><i class="fas fa-users"></i> {{car.capacity}}</span>
+        </div>
+        <div class="car-price">${{car.price}} <span>/day</span></div>
+        <button class="rent-button" (click)="onRentCar(car)">Rent Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="benefits">
+  <div class="benefits-container">
+    <h2 class="section-title">Why Choose Us</h2>
+    <p class="section-subtitle">We provide the best service in the industry</p>
+    
+    <div class="benefits-grid">
+      <div class="benefit-card" *ngFor="let benefit of benefits">
+        <div class="benefit-icon">
+          <i [class]="benefit.icon"></i>
+        </div>
+        <h3 class="benefit-title">{{benefit.title}}</h3>
+        <p>{{benefit.description}}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <h2 class="section-title">What Our Customers Say</h2>
+  <p class="section-subtitle">Don't just take our word for it</p>
+  
+  <div class="testimonials-grid">
+    <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+      <p class="testimonial-text">{{testimonial.text}}</p>
+      <div class="testimonial-author">
+        <img [src]="testimonial.avatar" [alt]="testimonial.author" class="author-avatar">
+        <div>
+          <div class="author-name">{{testimonial.author}}</div>
+          <div class="author-role">{{testimonial.role}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-about" id="about-section">
+      <div class="footer-logo">Velocity<span>Rentals</span></div>
+      <p class="footer-about">Providing premium car rental services since 2010. We're committed to offering the best vehicles at competitive prices with exceptional customer service.</p>
+      <div class="social-links">
+        <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
+      </div>
+    </div>
+    
+    <div class="footer-links">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a routerLink="/">Home</a></li>
+        <li><a routerLink="/about">About Us</a></li>
+        <li><a routerLink="/services">Services</a></li>
+        <li><a routerLink="/cars">Cars</a></li>
+        <li><a routerLink="/blog">Blog</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-links">
+      <h3>Support</h3>
+      <ul>
+        <li><a routerLink="/faq">FAQ</a></li>
+        <li><a routerLink="/privacy">Privacy Policy</a></li>
+        <li><a routerLink="/terms">Terms & Conditions</a></li>
+        <li><a routerLink="/contact">Contact</a></li>
+        <li><a routerLink="/help">Help Center</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-links" id="contact-section">
+      <h3>Contact Us</h3>
+      <p><i class="fa-brands fa-font-awesome"></i> 123 Rental Street, Auto City, AC 12345</p>
+      <p><i class="fa-solid fa-phone"></i> +7 (747) 244-2245</p>
+      <p><i class="fas fa-envelope"></i> info&#64;velocityrentals.com</p>
+      <p><i class="fas fa-clock"></i> Mon-Sun: 24/7</p>
+    </div>
+  </div>
+  
+  <div class="copyright">
+    &copy; {{ currentYear }} Velocity Rentals. All rights reserved.
+  </div>
+</footer>

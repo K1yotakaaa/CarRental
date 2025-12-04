@@ -1,0 +1,132 @@
+<div class="main">
+  <div class="animated-background">
+    <div class="gradient-sphere sphere-1"></div>
+    <div class="gradient-sphere sphere-2"></div>
+    <div class="gradient-sphere sphere-3"></div>
+    <div class="particles" id="particles"></div>
+  </div>
+
+  <div class="login-container" [class.signup-mode]="isSignupMode">
+    
+    <!-- HEADER -->
+    <div class="login-header">
+      <h1 *ngIf="!isSignupMode">Welcome Back</h1>
+      <h1 *ngIf="isSignupMode">Create Account</h1>
+
+      <p *ngIf="!isSignupMode">Log in to continue your journey</p>
+      <p *ngIf="isSignupMode">Join us today!</p>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form *ngIf="!isSignupMode" (ngSubmit)="onSubmit()" class="form-slide">
+      <div class="form-group">
+        <input
+          type="email"
+          class="form-input"
+          placeholder="Email"
+          required
+          [(ngModel)]="email"
+          name="email"
+        />
+        <i class="wrap fa-solid fa-envelope"></i>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          class="form-input"
+          placeholder="Password"
+          required
+          [(ngModel)]="password"
+          name="password"
+        />
+        <i class="wrap fa-solid fa-lock"></i>
+      </div>
+
+      <button type="submit" class="submit-button" [disabled]="loading">
+        {{ loading ? 'Logging in...' : 'Log In' }}
+      </button>
+
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+      <div class="divider"><span>or continue with</span></div>
+
+      <div class="social-login">
+        <button class="social-button"><i class="fab fa-google"></i></button>
+        <button class="social-button"><i class="fab fa-apple"></i></button>
+        <button class="social-button"><i class="fab fa-github"></i></button>
+      </div>
+
+      <div class="additional-options">
+        <a href="#">Forgot password?</a>
+        <p style="margin-top: 1rem">Don't have an account?
+          <a (click)="toggleMode()">Sign up</a>
+        </p>
+      </div>
+
+    </form>
+
+    <!-- SIGNUP FORM -->
+    <form *ngIf="isSignupMode" (ngSubmit)="onRegister()" class="form-slide">
+
+      <div class="form-group">
+        <input
+          type="email"
+          class="form-input"
+          placeholder="Email"
+          required
+          [(ngModel)]="email"
+          name="email"
+        />
+        <i class="wrap fa-solid fa-envelope"></i>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-input"
+          placeholder="Full Name"
+          required
+          [(ngModel)]="full_name"
+          name="full_name"
+        />
+        <i class="wrap fa-solid fa-user"></i>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          class="form-input"
+          placeholder="Password"
+          required
+          [(ngModel)]="password"
+          name="password"
+        />
+        <i class="wrap fa-solid fa-lock"></i>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          class="form-input"
+          placeholder="Confirm Password"
+          required
+          [(ngModel)]="password2"
+          name="password2"
+        />
+        <i class="wrap fa-solid fa-lock"></i>
+      </div>
+
+      <button type="submit" class="submit-button" [disabled]="loading">
+        {{ loading ? 'Creating account...' : 'Sign Up' }}
+      </button>
+
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+      <p style="margin-top: 1rem; text-align:center;" class="r-text">
+        Already have an account?
+        <a (click)="toggleMode()">Login</a>
+      </p>
+    </form>
+  </div>
+</div>

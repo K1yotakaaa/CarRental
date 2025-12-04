@@ -1,0 +1,392 @@
+/* Header */
+header {
+  height: 5vh;
+  color: white;
+  position: relative;
+}
+
+nav {
+  background-color: rgb(0, 0, 0);
+  padding: 1rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 5%;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.cta-button {
+  background-color: var(--accent);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.3rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #e69009;
+  transform: translateY(-2px);
+}
+
+
+/* Dealer Showcase */
+.dealer-showcase {
+  padding: 8rem 5% 4rem;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.dealer-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.dealer-glow {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%);
+  z-index: 0;
+}
+
+.dealer-header h1 {
+  font-size: 3rem;
+  color: var(--dark);
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+  font-weight: 800;
+}
+
+.dealer-header p {
+  font-size: 1.2rem;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Cars Grid */
+.dealer-cars-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.car-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  z-index: 1;
+}
+
+.car-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.car-image-wrapper {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.car-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.car-card:hover .car-image {
+  transform: scale(1.05);
+}
+
+.car-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.car-price {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background: var(--accent);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.car-price span {
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+.car-details {
+  padding: 1.5rem;
+}
+
+.car-details h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: var(--dark);
+  font-weight: 700;
+}
+
+.car-specs {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.spec {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.spec i {
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.car-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.rent-btn, .details-btn {
+  flex: 1;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+  text-decoration: none;
+}
+
+.rent-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+
+.rent-btn:hover {
+  background: var(--secondary);
+  transform: translateY(-2px);
+}
+
+.details-btn {
+  background: white;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.details-btn:hover {
+  background: #f5f8ff;
+  transform: translateY(-2px);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.car-card {
+  animation: fadeIn 0.6s ease forwards;
+  opacity: 0;
+}
+
+.car-card:nth-child(1) { animation-delay: 0.1s; }
+.car-card:nth-child(2) { animation-delay: 0.2s; }
+.car-card:nth-child(3) { animation-delay: 0.3s; }
+.car-card:nth-child(4) { animation-delay: 0.4s; }
+.car-card:nth-child(5) { animation-delay: 0.5s; }
+
+
+/* Footer */
+footer {
+  background-color: var(--dark);
+  color: white;
+  padding: 3rem 5%;
+  margin-top: 2rem;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.footer-logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.footer-logo span {
+  color: var(--accent);
+}
+
+.footer-about {
+  margin-bottom: 1rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.social-link:hover {
+  background-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.footer-links h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.footer-links h3::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 3px;
+  background-color: var(--accent);
+  bottom: -8px;
+  left: 0;
+}
+
+.footer-links ul {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+  color: #d1d5db;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+.footer-links p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.copyright {
+  text-align: center;
+  padding-top: 2rem;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .search-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Flex Center Utility */
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,110 @@
+<!-- Header with Navigation -->
+<header>
+  <nav class="navScrolled" id="navbar">
+    <a [routerLink]="['/']" class="logo" style="text-decoration: none; color: inherit;">
+      Velocity<span>Rentals</span>
+    </a>    
+    <div class="nav-links">
+      <a [routerLink]="['/']">Home</a>
+      <a routerLink="/cars">Cars</a>
+      <a routerLink="/service">Services</a>
+      <a (click)="scrollTo('about')">About</a>
+      <a (click)="scrollTo('contact')">Contact</a>
+      <a [routerLink]="['/profile']" class="cta-button">My Profile</a>
+    </div>
+  </nav>
+</header>
+
+<section class="dealer-showcase">
+  <div class="dealer-header">
+    <h1 *ngIf="dealerName">{{ dealerName | titlecase }} Fleet</h1>
+    <h1 *ngIf="!dealerName">Dealer Fleet</h1>
+    <p *ngIf="dealerName">Premium selection of {{ dealerName | titlecase }} vehicles available for rent</p>
+  </div>
+
+  <div *ngIf="loading" class="loader">Loading cars…</div>
+
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div class="dealer-cars-container" *ngIf="!loading && !error && cars.length > 0">
+    <div class="car-card" *ngFor="let car of cars">
+      <div class="car-image-wrapper">
+        <img [src]="resolveImage(car)" [alt]="car.make" class="car-image" />
+        <div class="car-badge">{{ car.type }}</div>
+        <div class="car-price">${{ car.price }}<span>/day</span></div>
+      </div>
+
+      <div class="car-details">
+        <h3>{{ car.make }}</h3>
+        <div class="car-specs">
+          <div class="spec">
+            <i class="fas fa-gas-pump"></i>
+            <span>{{ car.fuel_type }}</span>
+          </div>
+          <div class="spec">
+            <i class="fas fa-user-friends"></i>
+            <span>{{ car.capacity }} seats</span>
+          </div>
+        </div>
+        <div class="car-actions">
+          <button class="rent-btn">Rent Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error && cars.length === 0" class="no-cars">
+    No cars found for this dealer.
+  </div>
+</section>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-about" id="about">
+      <div class="footer-logo">Velocity<span>Rentals</span></div>
+      <p class="footer-about">Providing premium car rental services since 2010. We're committed to offering the best vehicles at competitive prices with exceptional customer service.</p>
+      <div class="social-links">
+        <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a routerLink="/">Home</a></li>
+        <li><a routerLink="/about">About Us</a></li>
+        <li><a routerLink="/services">Services</a></li>
+        <li><a routerLink="/cars">Cars</a></li>
+        <li><a routerLink="/blog">Blog</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-links">
+      <h3>Support</h3>
+      <ul>
+        <li><a routerLink="/faq">FAQ</a></li>
+        <li><a routerLink="/privacy">Privacy Policy</a></li>
+        <li><a routerLink="/terms">Terms & Conditions</a></li>
+        <li><a routerLink="/contact">Contact</a></li>
+        <li><a routerLink="/help">Help Center</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-links" id="contact">
+      <h3>Contact Us</h3>
+      <p><i class="fa-brands fa-font-awesome"></i> 123 Rental Street, Auto City</p>
+      <p><i class="fa-solid fa-phone"></i> +7 (747) 244-2245</p>
+      <p><i class="fas fa-envelope"></i> info&#64;velocityrentals.com</p>
+      <p><i class="fas fa-clock"></i> Mon-Sun: 24/7</p>
+    </div>
+  </div>
+
+  <div class="copyright">
+    &copy; {{ currentYear }} Velocity Rentals. All rights reserved.
+  </div>
+</footer>
