@@ -35,7 +35,6 @@
   <form (ngSubmit)="onSubmit()">
 
     <select [(ngModel)]="carData.dealer" name="dealer" required>
-      <option value="">Select Dealer Company</option>
       <option *ngFor="let d of dealers" [value]="d.id">
         {{ d.name }}
       </option>
