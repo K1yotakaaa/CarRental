@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DealerService {
-  private base = 'http://127.0.0.1:8000/api/dealers/';
+  private base = 'https://carrental.up.railway.app/api/dealers/';
 
   constructor(private http: HttpClient) {}
 

@@ -12,7 +12,7 @@ interface TokenPair {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:8000/api/auth';
+  private apiUrl = 'https://carrental.up.railway.app/api/auth';
   private loggedIn = new BehaviorSubject<boolean>(this.hasValidAccessToken());
   isLoggedIn$ = this.loggedIn.asObservable();
 

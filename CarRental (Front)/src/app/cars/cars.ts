@@ -108,7 +108,7 @@ export class Cars implements OnInit {
 
   resolveImage(car: Car): string {
     if (car.image_file) {
-      return `http://127.0.0.1:8000${car.image_file}`;
+      return `https://carrental.up.railway.app${car.image_file}`;
     }
 
     return car.image || 'assets/no-image.png';

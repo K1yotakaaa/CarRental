@@ -81,6 +81,6 @@ export class ProfileService {
   }
 
   getCar(id: number) {
-    return firstValueFrom(this.http.get(`http://127.0.0.1:8000/api/cars/${id}/`));
+    return firstValueFrom(this.http.get(`https://carrental.up.railway.app/api/cars/${id}/`));
   }
 }

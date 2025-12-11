@@ -85,7 +85,7 @@ export class DealerCars implements OnInit {
   resolveImage(car: Car): string {
     if ((car as any).image_file) {
       const img = (car as any).image_file;
-      return img.startsWith('http') ? img : `http://127.0.0.1:8000${img}`;
+      return img.startsWith('http') ? img : `https://carrental.up.railway.app${img}`;
     }
     return car.image || 'assets/no-image.png';
   }

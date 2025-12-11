@@ -48,7 +48,7 @@ export class Service implements OnInit {
   }
 
   loadUserRole() {
-    this.http.get<any>('http://127.0.0.1:8000/api/auth/me/').subscribe({
+    this.http.get<any>('https://carrental.up.railway.app/api/auth/me/').subscribe({
       next: (user) => {
         console.log('USER FROM /me/:', user);
 
