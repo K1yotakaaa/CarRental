@@ -2,20 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Car } from './cars';
+import { Car } from '../cars';
 import { AuthService } from './auth-service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarService {
-  private baseUrl = 'http://127.0.0.1:8000/api/cars/';
+  private baseUrl = `${environment.apiBaseUrl}/api/cars/`;
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
   getCars(params?: any): Observable<Car[]> {
     const query = params ? this.toQueryString(params) : '';
-    console.log('getCars() called');
     return this.http.get<Car[]>(this.baseUrl + query);
   }
 

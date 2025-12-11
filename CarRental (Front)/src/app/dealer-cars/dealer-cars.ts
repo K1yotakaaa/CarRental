@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { CarService } from '../car-service';
-import { DealerService } from '../dealer-service';
+import { CarService } from '../services/car-service';
+import { DealerService } from '../services/dealer-service';
 import { Car } from '../cars';
 
 @Component({
@@ -28,67 +28,56 @@ export class DealerCars implements OnInit {
     private viewportScroller: ViewportScroller,
     private carService: CarService,
     private dealerService: DealerService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    console.log('🔵 DealerCars INIT');
 
     this.route.paramMap.subscribe((params) => {
       const idParam = params.get('dealer');
       const parsed = Number(idParam);
 
-      console.log('📌 Param received:', idParam, 'Parsed:', parsed);
-
       if (!idParam || isNaN(parsed) || parsed <= 0) {
-        console.warn('❌ Invalid dealer param!');
         this.error = 'Invalid dealer identifier in URL.';
         this.cars = [];
         this.dealerName = '';
         this.loading = false;
+        this.cdr.detectChanges();
         return;
       }
 
       this.dealerId = parsed;
       this.loading = true;
       this.error = null;
-
-      console.log('🚀 Loading dealer + cars for dealerId =', parsed);
+      this.cars = [];
 
       this.loadDealerAndCars(parsed);
     });
   }
 
   private loadDealerAndCars(dealerId: number) {
-    console.log('🔍 Calling dealerService.getDealer…');
-
     this.dealerService.getDealer(dealerId).subscribe({
       next: (d) => {
-        console.log('✔ Dealer loaded:', d);
         this.dealerName = d?.name || `Dealer ${dealerId}`;
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        console.warn('⚠ Failed to load dealer:', err);
         this.dealerName = `Dealer ${dealerId}`;
+        this.cdr.detectChanges();
       },
     });
 
-    console.log('🚗 Calling carService.getCarsByDealerId…');
-
     this.carService.getCarsByDealerId(dealerId).subscribe({
       next: (data) => {
-        console.log('🎯 Cars received:', data);
-        console.log('Count:', data?.length);
-
         this.cars = data || [];
         this.loading = false;
-
-        console.log('📌 cars assigned. Template should update now.');
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Failed to load cars', err);
         this.error = 'Failed to load dealer cars.';
         this.cars = [];
         this.loading = false;
+        this.cdr.detectChanges();
       },
     });
   }

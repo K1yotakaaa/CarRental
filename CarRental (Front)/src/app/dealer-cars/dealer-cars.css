@@ -61,7 +61,6 @@ nav {
 }
 
 
-/* Dealer Showcase */
 .dealer-showcase {
   padding: 8rem 5% 4rem;
   background-color: #f8fafc;
@@ -103,7 +102,6 @@ nav {
   z-index: 1;
 }
 
-/* Cars Grid */
 .dealer-cars-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

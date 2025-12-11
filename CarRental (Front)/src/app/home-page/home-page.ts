@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../auth-service';
-import { CarService } from '../car-service';
+import { AuthService } from '../services/auth-service';
+import { CarService } from '../services/car-service';
 import { Car } from '../cars';
 
 interface Benefit {

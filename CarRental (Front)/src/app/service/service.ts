@@ -4,9 +4,9 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-import { CarService } from '../car-service';
-import { AuthService } from '../auth-service';
-import { DealerService } from '../dealer-service';
+import { CarService } from '../services/car-service';
+import { AuthService } from '../services/auth-service';
+import { DealerService } from '../services/dealer-service';
 
 @Component({
   selector: 'app-service',
@@ -19,7 +19,6 @@ export class Service implements OnInit {
 
   dealers: any[] = [];
   isDealer = false;
-  userDealerId: number | null = null;
 
   carData = {
     make: '',
@@ -28,8 +27,9 @@ export class Service implements OnInit {
     capacity: 0,
     price: 0,
     description: '',
-    image: '',
+    dealer: null as number | null,
     image_file: null as File | null,
+    image: '',
   };
 
   constructor(
@@ -43,8 +43,24 @@ export class Service implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadUserRole();
     this.loadDealers();
-    this.loadUserData();
+  }
+
+  loadUserRole() {
+    this.http.get<any>('http://127.0.0.1:8000/api/auth/me/').subscribe({
+      next: (user) => {
+        console.log('USER FROM /me/:', user);
+
+        this.isDealer = user.role === 'dealer';
+        console.log('isDealer =', this.isDealer);
+
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error('ERROR calling /me/:', err);
+      },
+    });
   }
 
   loadDealers() {
@@ -57,34 +73,19 @@ export class Service implements OnInit {
     });
   }
 
-  loadUserData() {
-    const token = this.authService.getAccessToken();
-    if (!token) return;
-
-    this.http
-      .get<any>('http://127.0.0.1:8000/api/auth/me/', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .subscribe({
-        next: (user) => {
-          if (user.role === 'dealer') {
-            this.isDealer = true;
-            this.userDealerId = user.dealer;
-          }
-          this.cdr.markForCheck();
-        },
-        error: () => console.warn('Could not fetch user data'),
-      });
-  }
-
   onFileSelected(event: any) {
     const file = event.target.files[0] || null;
     this.carData.image_file = file;
   }
 
   onSubmit() {
-    if (!this.userDealerId) {
-      alert('You must be a dealer to add cars.');
+    if (!this.isDealer) {
+      alert('Only DEALER users can create cars.');
+      return;
+    }
+
+    if (!this.carData.dealer) {
+      alert('Please select a dealer/company.');
       return;
     }
 
@@ -95,12 +96,12 @@ export class Service implements OnInit {
     formData.append('capacity', String(this.carData.capacity));
     formData.append('price', String(this.carData.price));
     formData.append('description', this.carData.description);
-    formData.append('dealer', String(this.userDealerId));
+    formData.append('dealer', String(this.carData.dealer));
 
     if (this.carData.image_file) {
       formData.append('image_file', this.carData.image_file);
-    } else if (this.carData.image) {
-      formData.append('image', this.carData.image);
+    } else if (this.carData.image.trim() !== '') {
+      formData.append('image', this.carData.image.trim());
     }
 
     this.carService.addCar(formData).subscribe({
@@ -123,17 +124,14 @@ export class Service implements OnInit {
       capacity: 0,
       price: 0,
       description: '',
-      image: '',
+      dealer: null,
       image_file: null,
+      image: '',
     };
   }
 
   navigateToDealer(dealerId: number) {
-    if (!dealerId || isNaN(dealerId)) {
-      console.warn('navigateToDealer called with invalid id', dealerId);
-      return;
-    }
-    // navigate to route with numeric id
+    if (!dealerId) return;
     this.router.navigate(['/service', dealerId]);
   }
 

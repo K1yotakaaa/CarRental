@@ -60,97 +60,288 @@ nav {
   transform: translateY(-2px);
 }
 
-
-/* Featured Cars */
 .featured {
-  padding: 5rem 5%;
+  padding: 80px 0;
   text-align: center;
+  background-color: #f8f9fa;
 }
-
 .section-title {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  position: relative;
-  display: inline-block;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  width: 50%;
-  height: 4px;
-  background-color: var(--accent);
-  bottom: -10px;
-  left: 25%;
+  font-size: 38px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
 }
 
 .section-subtitle {
-  color: #6b7280;
-  margin-bottom: 3rem;
-  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 35px;
+  font-size: 16px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.search-input {
+  width: 350px;
+  padding: 12px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.2s ease-in-out;
+}
+
+.search-input:focus {
+  border-color: #ff9f1c;
+  box-shadow: 0px 0px 4px rgba(255, 159, 28, 0.3);
 }
 
 .cars-grid {
+  width: 90%;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 25px;
 }
 
 .car-card {
-  background-color: white;
-  border-radius: 0.5rem;
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+  padding-bottom: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s;
+  transition: 0.25s ease-in-out;
 }
 
 .car-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
 }
 
 .car-image {
-  height: 200px;
   width: 100%;
+  height: 170px;
   object-fit: cover;
+  display: block;
+  border-radius: 12px 12px 0 0;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #ffffff;
+  border: none;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  overflow: visible;
+}
+
+.heart-container {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heart-outline {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: #888;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: scale(1);
+  opacity: 1;
+  z-index: 2;
+}
+
+.heart-fill {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: #ff4d4d;
+  transform: scale(0);
+  opacity: 0;
+  z-index: 1;
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 2px 4px rgba(255, 77, 77, 0.3));
+}
+
+.heart-fill::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  background: #ff4d4d;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.favorite-btn:not(.active):hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  background: #fff;
+}
+
+.favorite-btn:not(.active):hover .heart-outline {
+  color: #ff6b6b;
+  transform: scale(1.1);
+}
+
+.favorite-btn.active {
+  animation: buttonPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  background: rgba(255, 77, 77, 0.1);
+  box-shadow: 0 4px 20px rgba(255, 77, 77, 0.25);
+}
+
+.favorite-btn.active .heart-outline {
+  animation: outlineShrink 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  color: #ff4d4d;
+}
+
+.favorite-btn.active .heart-fill {
+  animation: fillExpand 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.favorite-btn.active .heart-fill::before {
+  animation: fillMask 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.favorite-btn.active:hover {
+  transform: scale(1.15);
+  box-shadow: 0 8px 24px rgba(255, 77, 77, 0.35);
+  background: rgba(255, 77, 77, 0.15);
+}
+
+@keyframes buttonPop {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.25);
+  }
+  60% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes outlineShrink {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.7);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes fillExpand {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(0.7);
+    opacity: 0.7;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fillMask {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(255, 77, 77, 0.25);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(255, 77, 77, 0.4);
+  }
+}
+
+.favorite-btn.active {
+  animation: buttonPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+             glowPulse 2s ease-in-out infinite 0.5s;
 }
 
 .car-info {
-  padding: 1.5rem;
+  padding: 15px 20px;
   text-align: left;
 }
 
 .car-make {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
 .car-specs {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  color: #6b7280;
+  gap: 12px;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 10px;
 }
 
-.car-spec {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
+.car-spec i {
+  color: #ff9f1c;
+  margin-right: 4px;
 }
 
 .car-price {
-  font-size: 1.5rem;
+  font-size: 18px;
   font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
+  color: #1a1a1a;
 }
 
 .car-price span {
-  font-size: 1rem;
+  font-size: 13px;
   font-weight: 400;
-  color: #6b7280;
+  color: #777;
 }
 
 .rent-button {
@@ -168,6 +359,7 @@ nav {
 .rent-button:hover {
   background-color: var(--secondary);
 }
+
 
 
 /* Footer */
@@ -271,7 +463,6 @@ footer {
   color: #9ca3af;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .nav-links {
     display: none;
@@ -286,7 +477,6 @@ footer {
   }
 }
 
-/* Flex Center Utility */
 .flex-center {
   display: flex;
   justify-content: center;

@@ -33,6 +33,14 @@
   <h2>Add a New Car</h2>
 
   <form (ngSubmit)="onSubmit()">
+
+    <select [(ngModel)]="carData.dealer" name="dealer" required>
+      <option value="">Select Dealer Company</option>
+      <option *ngFor="let d of dealers" [value]="d.id">
+        {{ d.name }}
+      </option>
+    </select>
+
     <input type="text" [(ngModel)]="carData.make" name="make" placeholder="Make" required>
 
     <select [(ngModel)]="carData.fuel_type" name="fuel_type" required>
@@ -68,6 +76,7 @@
     <button type="submit">Add Car</button>
   </form>
 </div>
+
 
 <!-- Footer -->
 <footer>

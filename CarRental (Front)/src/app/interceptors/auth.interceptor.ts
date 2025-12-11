@@ -3,7 +3,8 @@ import { inject } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
-import { AuthService } from '../auth-service';
+import { AuthService } from '../services/auth-service';
+import { environment } from '../../environments/environment';
 
 function isExpired(token: string | null): boolean {
   if (!token) return true;
@@ -20,16 +21,15 @@ async function refresh(refreshToken: string | null): Promise<string | null> {
   if (!refreshToken) return null;
 
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/auth/token/refresh/', {
+    const res = await fetch(`${environment.apiBaseUrl}/api/auth/token/refresh/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refresh: refreshToken }),
     });
 
     if (!res.ok) return null;
-
     const json = await res.json();
-    return json.access;
+    return json.access || null;
   } catch {
     return null;
   }
@@ -39,35 +39,34 @@ export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
+  console.log('INTERCEPTOR REQUEST:', req.url);
+  console.log('HEADERS:', req.headers);
   const auth = inject(AuthService);
   const access = auth.getAccessToken();
   const refreshToken = auth.getRefreshToken();
 
-  let modifiedReq = req;
-  if (access) {
-    modifiedReq = req.clone({
-      setHeaders: { Authorization: `Bearer ${access}` },
-    });
-  }
+  const attachToken = (token: string | null, request: HttpRequest<any>) => {
+    return token ? request.clone({ setHeaders: { Authorization: `Bearer ${token}` } }) : request;
+  };
 
-  if (!isExpired(access)) {
-    return next(modifiedReq);
+  if (access && !isExpired(access)) {
+    return next(attachToken(access, req));
   }
 
   return from(refresh(refreshToken)).pipe(
     switchMap((newAccess) => {
       if (newAccess) {
         auth.saveTokens({ access: newAccess, refresh: refreshToken || '' });
-
-        const retryReq = req.clone({
-          setHeaders: { Authorization: `Bearer ${newAccess}` },
-        });
+        const retryReq = attachToken(newAccess, req);
         return next(retryReq);
       }
 
       auth.logout();
-      return next(modifiedReq);
+      return next(attachToken(null, req));
     }),
-    catchError(() => next(modifiedReq))
+    catchError(() => {
+      auth.logout();
+      return next(attachToken(null, req));
+    })
   );
 };

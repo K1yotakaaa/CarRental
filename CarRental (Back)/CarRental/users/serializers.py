@@ -38,5 +38,15 @@ class RegisterSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
-    fields = ['id', 'email', 'full_name', 'role', 'avatar', 'dealer']
+    fields = ['id', 'email', 'full_name', 'role', 'avatar', 'dealer_company']
     read_only_fields = ['id', 'role']
+
+  def update(self, instance, validated_data):
+    avatar = validated_data.pop('avatar', None)
+    instance = super().update(instance, validated_data)
+
+    if avatar:
+      instance.avatar = avatar
+      instance.save()
+
+    return instance

@@ -21,18 +21,43 @@
 <section class="featured">
   <h2 class="section-title">Featured Vehicles</h2>
   <p class="section-subtitle">Explore our top car rental picks</p>
-  
+  <div class="search-container">
+    <input 
+      type="text"
+      placeholder="Search cars (make, type, dealer)..."
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onSearchChange()"
+      class="search-input"
+    />
+  </div>
+
   <div class="cars-grid">
     <div class="car-card" *ngFor="let car of featuredCars">
       <img [src]="resolveImage(car)" [alt]="car.make" class="car-image" />
+
+      <button 
+        class="favorite-btn"
+        [class.active]="isFavorite(car.id)"
+        (click)="toggleFavorite(car)"
+        [attr.data-car-id]="car.id"
+      >
+        <div class="heart-container">
+          <i class="fas fa-heart heart-outline"></i>
+          <i class="fas fa-heart heart-fill"></i>
+        </div>
+      </button>
+
       <div class="car-info">
         <h3 class="car-make">{{car.make}}</h3>
+
         <div class="car-specs">
           <span class="car-spec"><i class="fas fa-gas-pump"></i> {{car.fuel_type}}</span>
           <span class="car-spec"><i class="fas fa-car"></i> {{car.type}}</span>
           <span class="car-spec"><i class="fas fa-users"></i> {{car.capacity}}</span>
         </div>
+
         <div class="car-price">${{car.price}} <span>/day</span></div>
+
         <button class="rent-button" (click)="onRentCar(car)">Rent Now</button>
       </div>
     </div>
